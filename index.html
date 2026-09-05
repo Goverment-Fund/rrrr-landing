@@ -3,62 +3,256 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Application Portal</title>
+
 <style>
-*{box-sizing:border-box}
-body{
- margin:0;min-height:100vh;font-family:Arial,Helvetica,sans-serif;
- background:#f1f6f5;display:flex;justify-content:center;align-items:center;padding:20px
+* {
+    box-sizing: border-box;
 }
-.container{
- width:100%;max-width:430px;background:#fff;border-radius:30px;
- padding:32px 25px 30px;box-shadow:0 12px 35px rgba(0,0,0,.08)
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f1f6f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
-.progress{width:100%;height:10px;background:#e8eeee;border-radius:20px;overflow:hidden;margin-bottom:34px}
-.progress span{display:block;width:50%;height:100%;background:#10b89b;border-radius:20px}
-.step{
- display:inline-block;background:#e9f8f5;color:#08a98f;font-weight:700;
- padding:9px 15px;border-radius:9px;font-size:14px;margin-bottom:20px
+
+.container {
+    width: 100%;
+    max-width: 430px;
+    background: white;
+    border-radius: 30px;
+    padding: 32px 25px 30px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.08);
 }
-h1{font-size:29px;line-height:1.25;text-align:center;margin:0 0 28px;color:#111}
-.option{
- width:100%;height:78px;border:1px solid #e5e8e8;border-radius:22px;
- background:#fff;display:flex;align-items:center;padding:0 22px;
- margin-bottom:15px;font-size:20px;font-weight:700;color:#111
+
+.progress {
+    width: 100%;
+    height: 10px;
+    background: #e8eeee;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 34px;
 }
-.option .emoji{font-size:28px;margin-right:18px}
-.option .arrow{margin-left:auto;font-size:31px;color:#65777c}
-.apply{
- display:block;width:100%;height:76px;margin-top:22px;border:none;border-radius:23px;
- background:#0bb496;color:#fff;text-decoration:none;font-size:21px;font-weight:700;
- text-align:center;line-height:76px;box-shadow:0 10px 20px rgba(11,180,150,.18);
- transition:.2s
+
+.progress span {
+    display: block;
+    width: 50%;
+    height: 100%;
+    background: #10b89b;
+    border-radius: 20px;
 }
-.apply:hover{transform:translateY(-2px)}
-.security{text-align:center;margin-top:25px;color:#aeb7b9;font-size:14px}
-.security span{color:#f0ad24;margin-right:5px}
+
+.step {
+    display: inline-block;
+    background: #e9f8f5;
+    color: #08a98f;
+    font-weight: 700;
+    padding: 9px 15px;
+    border-radius: 9px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+h1 {
+    font-size: 29px;
+    line-height: 1.25;
+    text-align: center;
+    margin: 0 0 28px;
+    color: #111;
+}
+
+.option {
+    width: 100%;
+    height: 78px;
+    border: 1px solid #e5e8e8;
+    border-radius: 22px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 22px;
+    margin-bottom: 15px;
+    font-size: 20px;
+    font-weight: 700;
+    color: #111;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.option:hover {
+    border-color: #10b89b;
+}
+
+.option.selected {
+    border: 2px solid #10b89b;
+    background: #effbf8;
+}
+
+.emoji {
+    font-size: 28px;
+    margin-right: 18px;
+}
+
+.arrow {
+    margin-left: auto;
+    font-size: 31px;
+    color: #65777c;
+}
+
+.check {
+    display: none;
+    margin-left: auto;
+    color: #0bb496;
+    font-size: 22px;
+}
+
+.option.selected .arrow {
+    display: none;
+}
+
+.option.selected .check {
+    display: block;
+}
+
+.apply {
+    display: block;
+    width: 100%;
+    height: 76px;
+    margin-top: 22px;
+    border: none;
+    border-radius: 23px;
+    background: #0bb496;
+    color: white;
+    text-decoration: none;
+    font-size: 21px;
+    font-weight: 700;
+    text-align: center;
+    line-height: 76px;
+    box-shadow: 0 10px 20px rgba(11,180,150,0.18);
+    cursor: pointer;
+}
+
+.apply.disabled {
+    background: #b9c9c6;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+.security {
+    text-align: center;
+    margin-top: 25px;
+    color: #aeb7b9;
+    font-size: 14px;
+}
+
+.security span {
+    color: #f0ad24;
+    margin-right: 5px;
+}
+
+.message {
+    text-align: center;
+    height: 18px;
+    margin-top: 10px;
+    font-size: 13px;
+    color: #777;
+}
 </style>
 </head>
+
 <body>
+
 <div class="container">
- <div class="progress"><span></span></div>
- <div style="text-align:center"><div class="step">STEP 1 OF 2</div></div>
- <h1>Select your gender to<br>begin:</h1>
 
- <div class="option">
-  <span class="emoji">👨</span><span>Male</span><span class="arrow">→</span>
- </div>
+    <div class="progress">
+        <span></span>
+    </div>
 
- <div class="option">
-  <span class="emoji">👩</span><span>Female</span><span class="arrow">→</span>
- </div>
+    <div style="text-align:center;">
+        <div class="step">STEP 1 OF 2</div>
+    </div>
 
- <!-- Replace YOUR_VERIFIED_URL with a legitimate destination -->
- <a class="apply" href="https://rrrprogrampaymentlist.blogspot.com/p/rrr-rrr-application-form-complete-form.html" target="_blank" rel="noopener noreferrer">
-  Apply Now ⚡
- </a>
+    <h1>Select your gender to<br>begin:</h1>
 
- <div class="security"><span>🔒</span> Safe &amp; Encrypted Connection</div>
+    <div class="option" id="male" onclick="selectGender('Male')">
+        <span class="emoji">👨</span>
+        <span>Male</span>
+        <span class="arrow">→</span>
+        <span class="check">✓</span>
+    </div>
+
+    <div class="option" id="female" onclick="selectGender('Female')">
+        <span class="emoji">👩</span>
+        <span>Female</span>
+        <span class="arrow">→</span>
+        <span class="check">✓</span>
+    </div>
+
+    <a
+        id="applyButton"
+        class="apply disabled"
+        href="#"
+        onclick="applyNow(event)"
+    >
+        Apply Now ⚡
+    </a>
+
+    <div class="message" id="message"></div>
+
+    <div class="security">
+        <span>🔒</span>
+        Safe &amp; Encrypted Connection
+    </div>
+
 </div>
+
+<script>
+
+let selectedGender = "";
+
+function selectGender(gender) {
+
+    selectedGender = gender;
+
+    document.getElementById("male").classList.remove("selected");
+    document.getElementById("female").classList.remove("selected");
+
+    document.getElementById(
+        gender.toLowerCase()
+    ).classList.add("selected");
+
+    document.getElementById("applyButton")
+        .classList.remove("disabled");
+
+    document.getElementById("message").textContent =
+        gender + " selected";
+}
+
+
+function applyNow(event) {
+
+    event.preventDefault();
+
+    if (!selectedGender) {
+
+        document.getElementById("message").textContent =
+            "Please select Male or Female first.";
+
+        return;
+    }
+
+    const destination =
+        "https://rrrprogrampaymentlist.blogspot.com/p/rrr-rrr-application-form-complete-form.html";
+
+    window.location.href = destination;
+}
+
+</script>
+
 </body>
 </html>
